@@ -40,6 +40,14 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "ScoreBoard"
             packageVersion = "1.0.0"
+            windows {
+                // a version for all Windows distributables
+                packageVersion = "1.0.0"
+                // a version only for the msi package
+                msiPackageVersion = "1.0.0"
+                // a version only for the exe package
+                exePackageVersion = "1.0.0"
+            }
         }
     }
 }

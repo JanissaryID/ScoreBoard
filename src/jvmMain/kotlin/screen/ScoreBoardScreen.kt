@@ -4,6 +4,7 @@ import SIZE_IMAGE_CENTER
 import SIZE_IMAGE_TEAM
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -47,156 +48,145 @@ fun ScoreBoardScreen(
 
     var refreshImage by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = modifier.fillMaxSize().padding(16.dp)
+    Row(
+        modifier = modifier.fillMaxSize().padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight().weight(10f),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxHeight()
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Box(modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),) {
-                    if (!TeamA.LogoTeam.isNullOrEmpty() && !TeamA.RefreshImage) {
-                        AsyncImage(
-                            load = { loadImageBitmap(File("${TeamA.LogoTeam}")) },
-                            painterFor = { remember { BitmapPainter(it) } },
-                            contentDescription = "Image Team",
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource("PSIS.png"),
-                            contentDescription = "Default Image",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),
-                            alignment = Alignment.Center
-                        )
-                    }
-                }
-                Text(
-                    text = "${TeamA.NameTeam}",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = sizeFontTeam,
-                    color = MaterialTheme.colors.onPrimary,
-                    textAlign = TextAlign.Center,
-                )
-                Row(
-                    modifier = Modifier.wrapContentSize().padding(start = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Text(
-                        text = "${TeamA.ScoreTeam}",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = sizeFontScore,
-                        color = MaterialTheme.colors.onPrimary,
-                        modifier = modifier.width(120.dp),
-                        textAlign = TextAlign.Start
+            Box(modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),) {
+                if (!TeamA.LogoTeam.isNullOrEmpty() && !TeamA.RefreshImage) {
+                    AsyncImage(
+                        load = { loadImageBitmap(File("${TeamA.LogoTeam}")) },
+                        painterFor = { remember { BitmapPainter(it) } },
+                        contentDescription = "Image Team",
+                    )
+                } else {
+                    Image(
+                        painter = painterResource("PSIS.png"),
+                        contentDescription = "Default Image",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),
+                        alignment = Alignment.Center
                     )
                 }
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Box(modifier = Modifier.size(SIZE_IMAGE_CENTER.dp),) {
-                    if (!Display.imageCenter.isNullOrEmpty() && !refreshImage) {
-                        AsyncImage(
-                            load = { loadImageBitmap(File("${Display.imageCenter}")) },
-                            painterFor = { remember { BitmapPainter(it) } },
-                            contentDescription = "Image Center",
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource("premier.png"),
-                            contentDescription = "Default Image",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(SIZE_IMAGE_CENTER.dp),
-                            alignment = Alignment.Center
-                        )
-                    }
-                }
-                Time(
-                    formattedTime = Timer.formattedTime,
-                    onStartClick = Timer::Start,
-                    onPauseClick = Timer::Pause,
-                    onResetClick = Timer::Reset,
-                    isActive = Timer.isActive,
-                    isEndTime = Timer.isEndTime,
-                    isVisible = false
-                )
-                Row(
-                    modifier = modifier.padding(horizontal = 16.dp)
-                        .wrapContentSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    PlayerLazyColumn(
-                        modifier = modifier,
-                        playerModel = PlayerA,
-                        aligment = true
+//            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "${TeamA.NameTeam}",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = sizeFontTeam,
+                color = MaterialTheme.colors.onPrimary,
+                textAlign = TextAlign.Center,
+            )
+//            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "${TeamA.ScoreTeam}",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = sizeFontScore,
+                color = MaterialTheme.colors.onPrimary,
+                modifier = Modifier.width(120.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            Box(modifier = Modifier.size(SIZE_IMAGE_CENTER.dp),) {
+                if (!Display.imageCenter.isNullOrEmpty() && !refreshImage) {
+                    AsyncImage(
+                        load = { loadImageBitmap(File("${Display.imageCenter}")) },
+                        painterFor = { remember { BitmapPainter(it) } },
+                        contentDescription = "Image Center",
                     )
-                    Divider(
-                        color = Color.White,
-                        modifier = modifier
-                            .height(100.dp)  //fill the max height
-                            .width(2.dp)
-                    )
-                    PlayerLazyColumn(
-                        modifier = modifier,
-                        playerModel = PlayerB,
-                        aligment = false
+                } else {
+                    Image(
+                        painter = painterResource("premier.png"),
+                        contentDescription = "Default Image",
+                        contentScale = ContentScale.Fit,
+                        modifier = modifier.size(SIZE_IMAGE_CENTER.dp),
+                        alignment = Alignment.Center
                     )
                 }
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Box(modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),) {
-                    if (!TeamB.LogoTeam.isNullOrEmpty() && !TeamB.RefreshImage) {
-                        AsyncImage(
-                            load = { loadImageBitmap(File("${TeamB.LogoTeam}")) },
-                            painterFor = { remember { BitmapPainter(it) } },
-                            contentDescription = "Image Team",
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource("PSIS.png"),
-                            contentDescription = "Default Image",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),
-                            alignment = Alignment.Center
-                        )
-                    }
-                }
-                Text(
-                    text = "${TeamB.NameTeam}",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = sizeFontTeam,
-                    color = MaterialTheme.colors.onPrimary,
-                    textAlign = TextAlign.Center,
-                )
-                Row(
-                    modifier = Modifier.wrapContentSize().padding(end = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Text(
-                        text = "${TeamB.ScoreTeam}",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = sizeFontScore,
-                        color = MaterialTheme.colors.onPrimary,
-                        modifier = modifier.width(120.dp),
-                        textAlign = TextAlign.End
+            Time(
+                formattedTime = Timer.formattedTime,
+                onStartClick = Timer::Start,
+                onPauseClick = Timer::Pause,
+                onResetClick = Timer::Reset,
+                isActive = Timer.isActive,
+                isEndTime = Timer.isEndTime,
+                isVisible = false,
+                modifier = Modifier
+            )
+//                Row(
+//                    modifier = Modifier.padding(horizontal = 16.dp)
+//                        .wrapContentSize(),
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.Center
+//                ) {
+//                    PlayerLazyColumn(
+//                        modifier = Modifier,
+//                        playerModel = PlayerA,
+//                        aligment = true
+//                    )
+//                    Divider(
+//                        color = Color.White,
+//                        modifier = Modifier
+//                            .height(100.dp)  //fill the max height
+//                            .width(2.dp)
+//                    )
+//                    PlayerLazyColumn(
+//                        modifier = Modifier,
+//                        playerModel = PlayerB,
+//                        aligment = false
+//                    )
+//                }
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            Box(modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),) {
+                if (!TeamB.LogoTeam.isNullOrEmpty() && !TeamB.RefreshImage) {
+                    AsyncImage(
+                        load = { loadImageBitmap(File("${TeamB.LogoTeam}")) },
+                        painterFor = { remember { BitmapPainter(it) } },
+                        contentDescription = "Image Team",
+                    )
+                } else {
+                    Image(
+                        painter = painterResource("PSIS.png"),
+                        contentDescription = "Default Image",
+                        contentScale = ContentScale.Fit,
+                        modifier = modifier.size(SIZE_IMAGE_TEAM.dp),
+                        alignment = Alignment.Center
                     )
                 }
             }
+//            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = "${TeamB.NameTeam}",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = sizeFontTeam,
+                color = MaterialTheme.colors.onPrimary,
+                textAlign = TextAlign.Center,
+            )
+//            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = "${TeamB.ScoreTeam}",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = sizeFontScore,
+                color = MaterialTheme.colors.onPrimary,
+                modifier = Modifier.width(120.dp).wrapContentHeight(),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

@@ -127,7 +127,7 @@ fun ControllerScreen(
                             },
                     ){
 //                    println("${TeamA.LogoTeam}")
-                        if(!TeamA[SELECTED_SCREEN].LogoTeam.toString().isNullOrEmpty() && !TeamA[SELECTED_SCREEN].RefreshImage){
+                        if(!TeamA[SELECTED_SCREEN].LogoTeam.isNullOrEmpty() && !TeamA[SELECTED_SCREEN].RefreshImage){
                             AsyncImage(
                                 load = { loadImageBitmap(File("${TeamA[SELECTED_SCREEN].LogoTeam}")) },
                                 painterFor = { remember { BitmapPainter(it) } },
@@ -224,7 +224,8 @@ fun ControllerScreen(
                         onResetClick = Timer[SELECTED_SCREEN]::Reset,
                         isActive = Timer[SELECTED_SCREEN].isActive,
                         isEndTime = Timer[SELECTED_SCREEN].isEndTime,
-                        isVisible = true
+                        isVisible = true,
+                        modifier = modifier
                     )
                     Row(
                         modifier = modifier.padding(horizontal = 16.dp)

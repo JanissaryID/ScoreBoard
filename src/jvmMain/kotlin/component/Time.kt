@@ -17,10 +17,11 @@ fun Time(
     onStartClick: () -> Unit,
     onPauseClick: () -> Unit,
     onResetClick: () -> Unit,
+    modifier: Modifier
 ) {
     val sizeFontTime = MaterialTheme.typography.h4.fontSize
 
-    val modifier = Modifier
+//    val modifier = Modifier
 
 //    println("Ent Time : ${isEndTime}")
 

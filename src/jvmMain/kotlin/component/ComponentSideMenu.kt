@@ -20,7 +20,7 @@ fun ComponentSideMenu(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        println("List Display = ${Display.listDisplay}")
+//        println("List Display = ${Display.listDisplay}")
 
         MenuLazyColumn(
             menu = Display.listDisplay

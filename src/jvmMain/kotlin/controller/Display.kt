@@ -25,7 +25,7 @@ class Display {
             listTeamA.add(Team())
             listTeamB.add(Team())
             listTimer.add(Timer())
-            println("add")
+//            println("add")
         }
     }
 }

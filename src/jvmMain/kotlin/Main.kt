@@ -2,9 +2,7 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,9 +15,6 @@ import androidx.compose.ui.window.*
 import controller.Display
 import controller.Team
 import controller.Timer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import screen.ControllerScreen
 import screen.ScoreBoardScreen
 
@@ -34,13 +29,18 @@ fun DesktopController(
     val PrimaryDark = Color(0xFF18122B)
 
     MaterialTheme(colors = lightColors(background = PrimaryDark)) {
-        ControllerScreen(
-            Timer = Timer,
-            TeamA = TeamA,
-            TeamB = TeamB,
-            Display = Display,
-            modifier = Modifier.background(MaterialTheme.colors.background)
-        )
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .background(MaterialTheme.colors.background)
+        ){
+            ControllerScreen(
+                Timer = Timer,
+                TeamA = TeamA,
+                TeamB = TeamB,
+                Display = Display,
+                modifier = Modifier.background(MaterialTheme.colors.background)
+            )
+        }
     }
 }
 
@@ -50,22 +50,36 @@ fun DesktopView(
     TeamA: List<Team>,
     TeamB: List<Team>,
     Timer: List<Timer>,
-    Display: Display
+    Display: Display,
+    modifier: Modifier = Modifier
 ) {
     val PrimaryDark = Color(0xFF18122B)
 
     MaterialTheme(colors = lightColors(background = PrimaryDark)) {
-//        Box(Modifier.fillMaxSize()){
-////            Column(modifier = Modifier.fillMaxSize()) {
-//////                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
-////////                    ScoreBoardScreen(
-////////                        TeamA = TeamA[0],
-////////                        TeamB = TeamB[0],
-////////                        Timer = Timer[0],
-////////                        Display = Display
-////////                    )
-//////                }
-////            }
+        ChoseScreen(
+            Timer = Timer,
+            TeamA = TeamA,
+            TeamB = TeamB,
+            Display = Display,
+//            modifier = modifier.background(MaterialTheme.colors.background)
+        )
+
+//        Row(modifier = modifier.fillMaxWidth()) {
+//            ScoreBoardScreen(
+//                TeamA = TeamA[0],
+//                TeamB = TeamB[0],
+//                Timer = Timer[0],
+//                Display = Display,
+//                modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+//            )
+//            Spacer(modifier = modifier.width(8.dp))
+//            ScoreBoardScreen(
+//                TeamA = TeamA[0],
+//                TeamB = TeamB[0],
+//                Timer = Timer[0],
+//                Display = Display,
+//                modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+//            )
 //        }
     }
 }
@@ -85,9 +99,6 @@ fun main() = application {
     val iconController = painterResource("icon_ball.png")
 
     val Display = remember { Display() }
-//    Display.AddDisplay()
-
-    println("On Create")
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -114,13 +125,16 @@ fun main() = application {
             focusable = false,
             state = stateScreen,
             icon = iconController,
+            alwaysOnTop = true,
             undecorated = true //frameless
         ) {
+            var modifier = Modifier.background(MaterialTheme.colors.background)
             DesktopView(
                 TeamA = Display.listTeamA,
                 TeamB = Display.listTeamB,
                 Timer = Display.listTimer,
-                Display = Display
+                Display = Display,
+                modifier = modifier
             )
         }
     }
@@ -132,13 +146,16 @@ fun main() = application {
             focusable = false,
             state = stateScreen,
             icon = iconController,
+            alwaysOnTop = true,
             undecorated = false //frameless
         ) {
+            var modifier = Modifier.background(MaterialTheme.colors.background)
             DesktopView(
                 TeamA = Display.listTeamA,
                 TeamB = Display.listTeamB,
                 Timer = Display.listTimer,
-                Display = Display
+                Display = Display,
+                modifier = modifier
             )
         }
     }
@@ -149,102 +166,118 @@ fun ChoseScreen(
     TeamA: List<Team>,
     TeamB: List<Team>,
     Timer: List<Timer>,
-    Display: Display
+    Display: Display,
+    modifier: Modifier = Modifier
 ){
+    println("Size : ${Display.listDisplay.size}")
     when(Display.listDisplay.size){
         1 -> {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+            Column(modifier = modifier.fillMaxSize()) {
+                Row(modifier = modifier.fillMaxWidth().weight(1f)) {
                     ScoreBoardScreen(
                         TeamA = TeamA[0],
                         TeamB = TeamB[0],
                         Timer = Timer[0],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
+            println("Size : 1 Here")
         }
         2 -> {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+            Column(modifier = modifier.fillMaxSize()) {
+                Row(modifier = modifier.fillMaxWidth().weight(1f)) {
                     ScoreBoardScreen(
                         TeamA = TeamA[0],
                         TeamB = TeamB[0],
                         Timer = Timer[0],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen(
                         TeamA = TeamA[1],
                         TeamB = TeamB[1],
                         Timer = Timer[1],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
+            println("Size : 2 Here")
         }
         3 -> {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+            Column(modifier = modifier.fillMaxSize()) {
+                Row(modifier = modifier.fillMaxWidth().weight(1f)) {
                     ScoreBoardScreen(
                         TeamA = TeamA[0],
                         TeamB = TeamB[0],
                         Timer = Timer[0],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen(
                         TeamA = TeamA[1],
                         TeamB = TeamB[1],
                         Timer = Timer[1],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                Spacer(modifier = modifier.height(8.dp))
+                Row(modifier = modifier.fillMaxWidth().weight(1f)) {
                     ScoreBoardScreen(
                         TeamA = TeamA[2],
                         TeamB = TeamB[2],
                         Timer = Timer[2],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
+            println("Size : 3 Here")
         }
         4 -> {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+            Column(modifier = modifier.fillMaxSize()) {
+                Row(modifier = modifier.fillMaxWidth().weight(1f)) {
                     ScoreBoardScreen(
                         TeamA = TeamA[0],
                         TeamB = TeamB[0],
                         Timer = Timer[0],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen(
                         TeamA = TeamA[1],
                         TeamB = TeamB[1],
                         Timer = Timer[1],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                Spacer(modifier = modifier.height(8.dp))
+                Row(modifier = modifier.fillMaxWidth().weight(1f)) {
                     ScoreBoardScreen(
                         TeamA = TeamA[2],
                         TeamB = TeamB[2],
                         Timer = Timer[2],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen(
                         TeamA = TeamA[3],
                         TeamB = TeamB[3],
                         Timer = Timer[3],
-                        Display = Display
+                        Display = Display,
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
+            println("Size : 4 Here")
         }
         else -> ""
     }
