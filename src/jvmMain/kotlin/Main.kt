@@ -169,7 +169,7 @@ fun ChoseScreen(
     Display: Display,
     modifier: Modifier = Modifier
 ){
-    println("Size : ${Display.listDisplay.size}")
+//    println("Size : ${Display.listDisplay.size}")
     when(Display.listDisplay.size){
         1 -> {
             Column(modifier = modifier.fillMaxSize()) {
@@ -179,11 +179,12 @@ fun ChoseScreen(
                         TeamB = TeamB[0],
                         Timer = Timer[0],
                         Display = Display,
+                        sizeDisplay = 0,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
-            println("Size : 1 Here")
+//            println("Size : 1 Here")
         }
         2 -> {
             Column(modifier = modifier.fillMaxSize()) {
@@ -193,6 +194,7 @@ fun ChoseScreen(
                         TeamB = TeamB[0],
                         Timer = Timer[0],
                         Display = Display,
+                        sizeDisplay = 1,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                     Spacer(modifier = modifier.width(8.dp))
@@ -201,11 +203,12 @@ fun ChoseScreen(
                         TeamB = TeamB[1],
                         Timer = Timer[1],
                         Display = Display,
+                        sizeDisplay = 1,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
-            println("Size : 2 Here")
+//            println("Size : 2 Here")
         }
         3 -> {
             Column(modifier = modifier.fillMaxSize()) {
@@ -215,6 +218,7 @@ fun ChoseScreen(
                         TeamB = TeamB[0],
                         Timer = Timer[0],
                         Display = Display,
+                        sizeDisplay = 2,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                     Spacer(modifier = modifier.width(8.dp))
@@ -223,6 +227,7 @@ fun ChoseScreen(
                         TeamB = TeamB[1],
                         Timer = Timer[1],
                         Display = Display,
+                        sizeDisplay = 2,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
@@ -233,11 +238,12 @@ fun ChoseScreen(
                         TeamB = TeamB[2],
                         Timer = Timer[2],
                         Display = Display,
+                        sizeDisplay = 2,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
-            println("Size : 3 Here")
+//            println("Size : 3 Here")
         }
         4 -> {
             Column(modifier = modifier.fillMaxSize()) {
@@ -247,6 +253,7 @@ fun ChoseScreen(
                         TeamB = TeamB[0],
                         Timer = Timer[0],
                         Display = Display,
+                        sizeDisplay = 3,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                     Spacer(modifier = modifier.width(8.dp))
@@ -255,6 +262,7 @@ fun ChoseScreen(
                         TeamB = TeamB[1],
                         Timer = Timer[1],
                         Display = Display,
+                        sizeDisplay = 3,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
@@ -265,6 +273,7 @@ fun ChoseScreen(
                         TeamB = TeamB[2],
                         Timer = Timer[2],
                         Display = Display,
+                        sizeDisplay = 3,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                     Spacer(modifier = modifier.width(8.dp))
@@ -273,11 +282,12 @@ fun ChoseScreen(
                         TeamB = TeamB[3],
                         Timer = Timer[3],
                         Display = Display,
+                        sizeDisplay = 3,
                         modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
                     )
                 }
             }
-            println("Size : 4 Here")
+//            println("Size : 4 Here")
         }
         else -> ""
     }

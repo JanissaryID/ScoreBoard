@@ -18,7 +18,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import component.*
 import controller.Display
 import controller.Team
@@ -35,10 +37,21 @@ fun ScoreBoardScreen(
     TeamA: Team,
     TeamB: Team,
     Display: Display,
+    sizeDisplay: Int,
     modifier: Modifier = Modifier
 ) {
-    val sizeFontScore = MaterialTheme.typography.h1.fontSize
-    val sizeFontTeam = MaterialTheme.typography.h5.fontSize
+    val sizeFontScore: List<TextUnit> = listOf(
+        144.sp,
+        126.sp,
+        72.sp,
+        72.sp,
+    )
+    val sizeFontTeam: List<TextUnit> = listOf(
+        72.sp,
+        72.sp,
+        72.sp,
+        72.sp,
+    )
 
     var PlayerA: ArrayList<ModelPlayer> = arrayListOf()
     PlayerA.addAll(Player.listData.filter { data -> data.Team })
@@ -78,7 +91,7 @@ fun ScoreBoardScreen(
             Text(
                 text = "${TeamA.NameTeam}",
                 fontWeight = FontWeight.SemiBold,
-                fontSize = sizeFontTeam,
+                fontSize = sizeFontTeam[sizeDisplay],
                 color = MaterialTheme.colors.onPrimary,
                 textAlign = TextAlign.Center,
             )
@@ -86,7 +99,7 @@ fun ScoreBoardScreen(
             Text(
                 text = "${TeamA.ScoreTeam}",
                 fontWeight = FontWeight.SemiBold,
-                fontSize = sizeFontScore,
+                fontSize = sizeFontScore[sizeDisplay],
                 color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.width(120.dp),
                 textAlign = TextAlign.Center
@@ -122,7 +135,9 @@ fun ScoreBoardScreen(
                 isActive = Timer.isActive,
                 isEndTime = Timer.isEndTime,
                 isVisible = false,
-                modifier = Modifier
+                isEnable = Timer.isDisable,
+                modifier = Modifier,
+                sizeDisplay = sizeDisplay
             )
 //                Row(
 //                    modifier = Modifier.padding(horizontal = 16.dp)
@@ -174,7 +189,7 @@ fun ScoreBoardScreen(
             Text(
                 text = "${TeamB.NameTeam}",
                 fontWeight = FontWeight.SemiBold,
-                fontSize = sizeFontTeam,
+                fontSize = sizeFontTeam[sizeDisplay],
                 color = MaterialTheme.colors.onPrimary,
                 textAlign = TextAlign.Center,
             )
@@ -182,7 +197,7 @@ fun ScoreBoardScreen(
             Text(
                 text = "${TeamB.ScoreTeam}",
                 fontWeight = FontWeight.SemiBold,
-                fontSize = sizeFontScore,
+                fontSize = sizeFontScore[sizeDisplay],
                 color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.width(120.dp).wrapContentHeight(),
                 textAlign = TextAlign.Center

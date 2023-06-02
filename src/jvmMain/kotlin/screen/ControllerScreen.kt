@@ -1,5 +1,6 @@
 package screen
 
+import DIALOG_TIMER
 import SELECTED_SCREEN
 import SIZE_IMAGE_CENTER
 import SIZE_IMAGE_TEAM
@@ -225,7 +226,9 @@ fun ControllerScreen(
                         isActive = Timer[SELECTED_SCREEN].isActive,
                         isEndTime = Timer[SELECTED_SCREEN].isEndTime,
                         isVisible = true,
-                        modifier = modifier
+                        modifier = modifier,
+                        isEnable = Timer[SELECTED_SCREEN].isDisable,
+                        sizeDisplay = Timer.size
                     )
                     Row(
                         modifier = modifier.padding(horizontal = 16.dp)
@@ -367,9 +370,9 @@ fun ControllerScreen(
                     }
                 }
 
-                TextClickable(text = "Show Clock"){
-
-                }
+//                TextClickable(text = "Show Clock"){
+//
+//                }
             }
         }
     }
@@ -380,6 +383,12 @@ fun ControllerScreen(
                 Team = if(!Display.stateTeamClick) TeamA[SELECTED_SCREEN] else TeamB[SELECTED_SCREEN],
                 Display = Display
             )
+        }
+    }
+
+    if(DIALOG_TIMER){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            DialogTimer(Timer = Timer)
         }
     }
 

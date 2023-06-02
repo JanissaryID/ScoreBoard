@@ -24,6 +24,7 @@ fun ImageClickable(
     image: String,
     description: String,
     size: Int,
+    isEnable: Boolean = true,
     onClick: () -> Unit
 ) {
 
@@ -40,7 +41,9 @@ fun ImageClickable(
                 .pointerHoverIcon(
                     icon = PointerIcon.Hand
                 )
-                .clickable {
+                .clickable(
+                    enabled = isEnable
+                ) {
                 onClick()
             },
         ) {

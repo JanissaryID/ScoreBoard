@@ -16,6 +16,7 @@ class Timer {
     var isActive by mutableStateOf(false)
     var isEndTime by mutableStateOf(false)
     var isHalfGame by mutableStateOf(false)
+    var isDisable by mutableStateOf(false)
 
     private var coroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -23,8 +24,10 @@ class Timer {
     private var lastTimestamp = 0L
     private var timeMilisTemp = 0L
 
-    private var maxHalfTime = 10000L
-    private var maxExtraTime = 5000L
+    private val oneMinute = 60000L
+
+    private var maxHalfTime = 0L
+    private var maxExtraTime = 0L
 
     var statTimeNow by mutableStateOf(0)
 
@@ -144,5 +147,14 @@ class Timer {
             timeMilisTemp = 0L
         }
 //        println("Extra Game : $maxHalfTime")
+    }
+
+    fun SetTimer(
+        halfTime: Int,
+        extraTime: Int
+    ){
+        this@Timer.maxHalfTime = halfTime * oneMinute
+        this@Timer.maxExtraTime = extraTime * oneMinute
+        this@Timer.isDisable = true
     }
 }
