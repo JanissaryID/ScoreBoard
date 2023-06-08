@@ -26,6 +26,7 @@ fun TextClickable(
     width: Int = 144,
     colorBackground: Color = Color.White,
     selected: Boolean = true,
+    clicked: Boolean = true,
     fontColor: Color = MaterialTheme.colors.onBackground,
     onClick: () -> Unit
 ) {
@@ -38,25 +39,43 @@ fun TextClickable(
         modifier = Modifier.size(height = height.dp, width = width.dp)
 
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxSize()
-                .pointerHoverIcon(
-                    icon = PointerIcon.Hand
+        if(clicked){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxSize()
+                    .pointerHoverIcon(
+                        icon = PointerIcon.Hand
+                    )
+                    .clickable {
+                        onClick()
+                    }
+            ) {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = sizeFontFooter,
+                    color = fontColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.wrapContentHeight().fillMaxWidth()
+                        .padding(vertical = 4.dp, horizontal = 8.dp),
                 )
-                .clickable {
-                onClick()
             }
-        ) {
-            Text(
-                text = text,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = sizeFontFooter,
-                color = fontColor,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.wrapContentHeight().fillMaxWidth()
-                    .padding(vertical = 4.dp, horizontal = 8.dp),
-            )
+        }
+        else{
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = sizeFontFooter,
+                    color = fontColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.wrapContentHeight().fillMaxWidth()
+                        .padding(vertical = 4.dp, horizontal = 8.dp),
+                )
+            }
         }
     }
 }

@@ -26,7 +26,6 @@ fun ComponentSelectedText(
     clicked: Boolean = false,
     height: Int = 30,
     width: Int = 144,
-    Timer: Timer = Timer(),
     onClick: (Int) -> Unit
 ) {
     val sizeFontFooter = MaterialTheme.typography.subtitle2.fontSize

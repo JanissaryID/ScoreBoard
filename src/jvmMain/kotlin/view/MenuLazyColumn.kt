@@ -19,7 +19,8 @@ import `object`.ModelPlayer
 fun MenuLazyColumn(
     menu: List<String>,
 ) {
-    var index_select: Int by mutableStateOf(0)
+    var index_select: Int by mutableStateOf(SELECTED_SCREEN)
+
     var selected_index by remember { mutableStateOf(index_select) }
     val on_click_index = { index: Int ->
         selected_index = index

@@ -1,6 +1,9 @@
 package component
 
+import FULL_SCREEN_CONTROLLER
+import SELECTED_SCREEN
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
@@ -13,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,9 +42,21 @@ fun ComponentMenu(
                 .pointerHoverIcon(
                     icon = PointerIcon.Hand
                 )
-                .clickable {
-                    onClick.invoke(index)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onPress = {
+                            println("Single Press")
+                            onClick.invoke(index)
+                        },
+                        onDoubleTap = { tapOffset ->
+                            println("Double Click")
+                            if(SELECTED_SCREEN == index){
+                                FULL_SCREEN_CONTROLLER = true
+                            }
+                        }
+                    )
                 }
+
         ) {
             if(!selected){
                 Divider(

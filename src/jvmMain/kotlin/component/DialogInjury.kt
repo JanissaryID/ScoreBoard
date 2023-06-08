@@ -1,32 +1,31 @@
 package component
 
+import DIALOG_INJURY
 import SELECTED_SCREEN
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import controller.Display
-import controller.Team
+import controller.Timer
 
 @Composable
-fun DialogWindow1(
-    Team: Team,
-    Display: Display
-){
-    val stateDialog = rememberDialogState(size = DpSize(350.dp, 220.dp), position = WindowPosition(Alignment.Center))
+fun DialogInjury(Timer: List<Timer>){
+    val stateDialog = rememberDialogState(size = DpSize(350.dp, 280.dp), position = WindowPosition(Alignment.Center))
+
 
     Dialog(
-        onCloseRequest = { Display.dialogTeamName = false },
-        visible = Display.dialogTeamName,
+        onCloseRequest = { DIALOG_INJURY = false },
+        visible = DIALOG_INJURY,
         undecorated = true,
         state = stateDialog,
         transparent = true
@@ -35,7 +34,7 @@ fun DialogWindow1(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ){
-            var nameTeam by remember { mutableStateOf(TextFieldValue("")) }
+            var timeInjury by remember { mutableStateOf("") }
 
             Surface(
                 modifier = Modifier.padding(16.dp).fillMaxSize(),
@@ -47,10 +46,9 @@ fun DialogWindow1(
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     OutlinedTextField(
-                        value = nameTeam,
-                        maxLines = 2,
-                        minLines = 2,
-                        label = { Text(text = "Name Team") },
+                        value = timeInjury,
+                        maxLines = 1,
+                        label = { Text(text = "Injury Time") },
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = MaterialTheme.colors.background,
                             cursorColor = MaterialTheme.colors.background,
@@ -59,8 +57,10 @@ fun DialogWindow1(
                             focusedLabelColor = MaterialTheme.colors.background,
                             focusedIndicatorColor = MaterialTheme.colors.background
                         ),
+                        placeholder = { Text(text = "In Minute") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = {
-                            nameTeam = it
+                            timeInjury = it.filter { it.isDigit() }
                         }
                     )
                     Row(modifier = Modifier.padding(16.dp)) {
@@ -71,7 +71,7 @@ fun DialogWindow1(
                             colorBackground = MaterialTheme.colors.background,
                             fontColor = Color.White
                         ){
-                            Display.dialogTeamName = false
+                            DIALOG_INJURY = false
                         }
                         Spacer(modifier = Modifier.width(16.dp))
                         TextClickable(
@@ -81,11 +81,12 @@ fun DialogWindow1(
                             colorBackground = MaterialTheme.colors.background,
                             fontColor = Color.White
                         ){
-                            if(!nameTeam.text.isNullOrEmpty()){
-                                Team.NameTeam = nameTeam.text
-                                Display.listDisplay[SELECTED_SCREEN] = "${Display.listTeamA[SELECTED_SCREEN].NameTeam}"
-                                Display.dialogTeamName = false
+                            if(!timeInjury.isNullOrEmpty()){
+                                Timer[SELECTED_SCREEN].SetInjury(
+                                    injuryTime = timeInjury.toInt()
+                                )
                             }
+                            DIALOG_INJURY = false
                         }
                     }
                 }

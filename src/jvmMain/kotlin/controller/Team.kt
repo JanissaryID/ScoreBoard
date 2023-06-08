@@ -9,12 +9,16 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 class Team {
 
     var LogoTeam by mutableStateOf("")
-    var NameTeam by mutableStateOf("My team")
+    var NameTeam by mutableStateOf("Team")
     var ScoreTeam by mutableStateOf(0)
     var RefreshImage by mutableStateOf(false)
 
     fun UpScore(){
         this@Team.ScoreTeam++
+    }
+    fun Reset(){
+        this@Team.ScoreTeam = 0
+//        this@Team.NameTeam = "Team"
     }
 
     fun DownScore(){

@@ -1,23 +1,28 @@
 package component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.FixedScale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.unit.dp
 
 
 @Composable
 fun <T> AsyncImage(
-//    Team: Team,
+    transparent: Boolean = false,
     load: suspend () -> T,
     painterFor: @Composable (T) -> Painter,
     contentDescription: String,
@@ -38,12 +43,24 @@ fun <T> AsyncImage(
     }
 
     if (image != null) {
-        Image(
-            painter = painterFor(image!!),
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            modifier = modifier
-        )
+        if(transparent){
+            Image(
+                painter = painterFor(image!!),
+                contentDescription = contentDescription,
+                contentScale = FixedScale(0.9f),
+                modifier = modifier.wrapContentSize(unbounded = true, align = Alignment.CenterStart),
+                alignment = Alignment.Center,
+                alpha = 0.1f,
+            )
+        }
+        else{
+            Image(
+                painter = painterFor(image!!),
+                contentDescription = contentDescription,
+                contentScale = contentScale,
+                modifier = modifier
+            )
+        }
     }
 }
 

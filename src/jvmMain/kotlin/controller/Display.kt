@@ -12,6 +12,7 @@ class Display {
     var dialogTeamName: Boolean by mutableStateOf(false)
     var stateImagePicker: Int by mutableStateOf(0)
     var stateTeamClick by mutableStateOf(false)
+    var HalfGame by mutableStateOf(-1)
 
     init {
         AddDisplay()
@@ -21,11 +22,15 @@ class Display {
         if(listDisplay.size < 4) {
             var countDisplay = listDisplay.size
             countDisplay++
-            listDisplay.add("Display ${countDisplay}")
             listTeamA.add(Team())
             listTeamB.add(Team())
             listTimer.add(Timer())
+            listDisplay.add("${listTeamA[countDisplay - 1].NameTeam}")
 //            println("add")
         }
+    }
+
+    fun ChangeNameDisplay(){
+
     }
 }
