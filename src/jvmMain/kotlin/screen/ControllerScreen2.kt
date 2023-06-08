@@ -14,13 +14,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -37,7 +35,6 @@ import controller.Team
 import controller.Timer
 import `object`.ModelPlayer
 import `object`.Player
-import view.PlayerLazyColumn
 import java.io.File
 
 @Composable
@@ -69,13 +66,13 @@ fun ControllerScreen2(
     val moreButton = listOf("Reset All", "Delete", "Normal Screen")
     val injuryTime = listOf("Set Additional", "Show Additional")
 
-    var half_game: Int by mutableStateOf(Display.HalfGame)
+    var half_game: Int by mutableStateOf(Timer[SELECTED_SCREEN].HalfGame)
 
     var selected_index_half by remember { mutableStateOf(half_game) }
 
     val on_click_index_half = { index: Int ->
         selected_index_half = index
-        Display.HalfGame = index
+        Timer[SELECTED_SCREEN].HalfGame = index
         try{
             Timer[SELECTED_SCREEN].ChoseTime(index = selected_index_half)
 

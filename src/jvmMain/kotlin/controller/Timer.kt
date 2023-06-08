@@ -21,6 +21,8 @@ class Timer {
     var isDisable by mutableStateOf(false)
     var showAdditional by mutableStateOf(false)
 
+    var HalfGame by mutableStateOf(-1)
+
     private var coroutineScope = CoroutineScope(Dispatchers.IO)
     private var coroutineScopeAdditional = CoroutineScope(Dispatchers.IO)
 

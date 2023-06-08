@@ -15,9 +15,7 @@ import androidx.compose.ui.window.*
 import controller.Display
 import controller.Team
 import controller.Timer
-import screen.ControllerScreen
 import screen.ControllerScreen2
-import screen.ScoreBoardScreen
 import screen.ScoreBoardScreen2
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -137,48 +135,48 @@ fun main() = application {
 
 //    println("${Display.listDisplay.size} - ${Display.listTeamA.size} - ${Display.listTeamB.size} - ${Display.listTimer.size} - Selected : $SELECTED_SCREEN")
 
-//    if(FULL_SCREEN){
-//        Window(
-//            onCloseRequest = ::exitApplication,
-//            resizable = false,
-//            title = "Display",
-//            focusable = false,
-//            state = stateScreen,
-//            icon = iconController,
-//            alwaysOnTop = true,
-//            undecorated = true //frameless
-//        ) {
-//            var modifier = Modifier.background(MaterialTheme.colors.background)
-//            DesktopView(
-//                TeamA = Display.listTeamA,
-//                TeamB = Display.listTeamB,
-//                Timer = Display.listTimer,
-//                Display = Display,
-//                modifier = modifier
-//            )
-//        }
-//    }
-//    else{
-//        Window(
-//            onCloseRequest = ::exitApplication,
-//            resizable = true,
-//            title = "Display",
-//            focusable = false,
-//            state = stateScreen,
-//            icon = iconController,
-//            alwaysOnTop = true,
-//            undecorated = false //frameless
-//        ) {
-//            var modifier = Modifier.background(MaterialTheme.colors.background)
-//            DesktopView(
-//                TeamA = Display.listTeamA,
-//                TeamB = Display.listTeamB,
-//                Timer = Display.listTimer,
-//                Display = Display,
-//                modifier = modifier
-//            )
-//        }
-//    }
+    if(FULL_SCREEN){
+        Window(
+            onCloseRequest = ::exitApplication,
+            resizable = false,
+            title = "Display",
+            focusable = false,
+            state = stateScreen,
+            icon = iconController,
+            alwaysOnTop = true,
+            undecorated = true //frameless
+        ) {
+            var modifier = Modifier.background(MaterialTheme.colors.background)
+            DesktopView(
+                TeamA = Display.listTeamA,
+                TeamB = Display.listTeamB,
+                Timer = Display.listTimer,
+                Display = Display,
+                modifier = modifier
+            )
+        }
+    }
+    else{
+        Window(
+            onCloseRequest = ::exitApplication,
+            resizable = true,
+            title = "Display",
+            focusable = false,
+            state = stateScreen,
+            icon = iconController,
+            alwaysOnTop = true,
+            undecorated = false //frameless
+        ) {
+            var modifier = Modifier.background(MaterialTheme.colors.background)
+            DesktopView(
+                TeamA = Display.listTeamA,
+                TeamB = Display.listTeamB,
+                Timer = Display.listTimer,
+                Display = Display,
+                modifier = modifier
+            )
+        }
+    }
 }
 
 @Composable

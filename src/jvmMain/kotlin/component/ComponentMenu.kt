@@ -45,11 +45,11 @@ fun ComponentMenu(
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onPress = {
-                            println("Single Press")
+//                            println("Single Press")
                             onClick.invoke(index)
                         },
                         onDoubleTap = { tapOffset ->
-                            println("Double Click")
+//                            println("Double Click")
                             if(SELECTED_SCREEN == index){
                                 FULL_SCREEN_CONTROLLER = true
                             }
