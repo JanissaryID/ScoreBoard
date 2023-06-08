@@ -17,6 +17,8 @@ import controller.Team
 import controller.Timer
 import screen.ControllerScreen2
 import screen.ScoreBoardScreen2
+import java.awt.Dimension
+import java.awt.Toolkit
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -57,12 +59,19 @@ fun DesktopView(
 ) {
     val PrimaryDark = Color(0xFF18122B)
 
+    val screenSize: Dimension = Toolkit.getDefaultToolkit().getScreenSize()
+    val width: Double = screenSize.getWidth()
+    val height: Double = screenSize.getHeight()
+
+    println("$height -- $width")
+
     MaterialTheme(colors = lightColors(background = PrimaryDark)) {
         ChoseScreen(
             Timer = Timer,
             TeamA = TeamA,
             TeamB = TeamB,
             Display = Display,
+            resolution = if(width > 1920) true else false
         )
     }
 }
@@ -93,8 +102,6 @@ fun main() = application {
     val iconController = painterResource("icon_ball.png")
 
     val Display = remember { Display() }
-
-//    println(FULL_SCREEN_CONTROLLER)
 
     if(FULL_SCREEN_CONTROLLER){
         Window(
@@ -185,6 +192,7 @@ fun ChoseScreen(
     TeamB: List<Team>,
     Timer: List<Timer>,
     Display: Display,
+    resolution: Boolean,
     modifier: Modifier = Modifier
 ){
 //    println("Size : ${Display.listDisplay.size}")
@@ -198,7 +206,8 @@ fun ChoseScreen(
                         Timer = Timer[0],
                         Display = Display,
                         sizeDisplay = 0,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                 }
             }
@@ -213,7 +222,8 @@ fun ChoseScreen(
                         Timer = Timer[0],
                         Display = Display,
                         sizeDisplay = 1,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                     Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen2(
@@ -222,7 +232,8 @@ fun ChoseScreen(
                         Timer = Timer[1],
                         Display = Display,
                         sizeDisplay = 1,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                 }
             }
@@ -237,7 +248,8 @@ fun ChoseScreen(
                         Timer = Timer[0],
                         Display = Display,
                         sizeDisplay = 2,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                     Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen2(
@@ -246,7 +258,8 @@ fun ChoseScreen(
                         Timer = Timer[1],
                         Display = Display,
                         sizeDisplay = 2,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                 }
                 Spacer(modifier = modifier.height(8.dp))
@@ -257,7 +270,8 @@ fun ChoseScreen(
                         Timer = Timer[2],
                         Display = Display,
                         sizeDisplay = 2,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                 }
             }
@@ -272,7 +286,8 @@ fun ChoseScreen(
                         Timer = Timer[0],
                         Display = Display,
                         sizeDisplay = 3,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                     Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen2(
@@ -281,7 +296,8 @@ fun ChoseScreen(
                         Timer = Timer[1],
                         Display = Display,
                         sizeDisplay = 3,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                 }
                 Spacer(modifier = modifier.height(8.dp))
@@ -292,7 +308,8 @@ fun ChoseScreen(
                         Timer = Timer[2],
                         Display = Display,
                         sizeDisplay = 3,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                     Spacer(modifier = modifier.width(8.dp))
                     ScoreBoardScreen2(
@@ -301,11 +318,11 @@ fun ChoseScreen(
                         Timer = Timer[3],
                         Display = Display,
                         sizeDisplay = 3,
-                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f)
+                        modifier = modifier.background(MaterialTheme.colors.background).weight(1f),
+                        resolution = resolution
                     )
                 }
             }
-//            println("Size : 4 Here")
         }
         else -> ""
     }

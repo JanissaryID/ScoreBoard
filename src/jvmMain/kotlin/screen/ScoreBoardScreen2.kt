@@ -38,38 +38,19 @@ fun ScoreBoardScreen2(
     TeamB: Team,
     Display: Display,
     sizeDisplay: Int,
+    resolution: Boolean = false,
     modifier: Modifier = Modifier
 ) {
 
-    val sizeImage: List<Int> = listOf(
-        240,
-        72,
-        64,
-        64,
-    )
+    val sizeImage: List<Int> = if(resolution) listOf(240, 72, 64, 64,) else listOf(200, 32, 24, 24,)
 
-    val sizeFontTeam: List<TextUnit> = listOf(
-        42.sp,
-        26.sp,
-        26.sp,
-        26.sp,
-    )
+    val sizeFontTeam: List<TextUnit> = if(resolution) listOf(42.sp, 26.sp, 26.sp, 26.sp,) else listOf(42.sp, 26.sp, 26.sp, 26.sp,)
 
-    val sizeFontScore: List<TextUnit> = listOf(
-        180.sp,
-        140.sp,
-        140.sp,
-        140.sp,
-    )
+    val sizeFontScore: List<TextUnit> = if(resolution) listOf(180.sp, 140.sp, 140.sp, 140.sp,) else listOf(140.sp, 100.sp, 100.sp, 100.sp,)
+
+    val fontTime: TextUnit = if(resolution) 120.sp else 80.sp
 
     var refreshImage by remember { mutableStateOf(false) }
-
-//    BoxWithConstraints(
-//        modifier = modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//
-//    }
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -103,7 +84,7 @@ fun ScoreBoardScreen2(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxSize().weight(1f).background(Color.Transparent),
+                        modifier = Modifier.size((sizeImage[0] + 220).dp).weight(1f).background(Color.Transparent),
                         contentAlignment = Alignment.Center
                     ) {
                         if (!TeamA.LogoTeam.isNullOrEmpty() && !TeamA.RefreshImage) {
@@ -126,7 +107,7 @@ fun ScoreBoardScreen2(
                     }
 
                     Box(
-                        modifier = Modifier.fillMaxSize().weight(1f).background(Color.Transparent),
+                        modifier = Modifier.size((sizeImage[0] + 220).dp).weight(1f).background(Color.Transparent),
                         contentAlignment = Alignment.Center
                     ) {
                         if (!TeamB.LogoTeam.isNullOrEmpty() && !TeamB.RefreshImage) {
@@ -190,7 +171,7 @@ fun ScoreBoardScreen2(
                     Text(
                         text = "${Timer.formattedTime}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 120.sp,
+                        fontSize = fontTime,
                         color = MaterialTheme.colors.onPrimary,
                         modifier = Modifier.wrapContentWidth(),
                         textAlign = TextAlign.Center
@@ -215,11 +196,11 @@ fun ScoreBoardScreen2(
                     }
                 }
 
-                if(Timer.showAdditional){
-                    Row(
-                        modifier = Modifier.width(400.dp),
-                        horizontalArrangement = Arrangement.spacedBy(32.dp)
-                    ) {
+                Row(
+                    modifier = Modifier.width(400.dp),
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    if(Timer.showAdditional) {
                         Text(
                             text = "+${Timer.ShowInjury()}",
                             fontWeight = FontWeight.SemiBold,
@@ -228,37 +209,38 @@ fun ScoreBoardScreen2(
                             color = MaterialTheme.colors.onPrimary,
                             modifier = Modifier.width(100.dp)
                         )
-                        if(Timer.isEndTime){
-                            Text(
-                                text = "${Timer.formattedTimeAdditional}",
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 72.sp,
-                                textAlign = TextAlign.Start,
-                                color = MaterialTheme.colors.onPrimary,
-                                modifier = Modifier.width(200.dp)
-                            )
-                        }
-                        else{
-                            Text(
-                                text = " ",
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 72.sp,
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colors.onPrimary,
-                                modifier = Modifier.width(200.dp)
-                            )
-                        }
                     }
-                }
-                else{
-                    Text(
-                        text = " ",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 72.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onPrimary,
-                        modifier = Modifier.width(200.dp)
-                    )
+                    else{
+                        Text(
+                            text = " ",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 72.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.onPrimary,
+                            modifier = Modifier.width(100.dp)
+                        )
+                    }
+
+                    if(Timer.isEndTime){
+                        Text(
+                            text = "${Timer.formattedTimeAdditional}",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 72.sp,
+                            textAlign = TextAlign.Start,
+                            color = MaterialTheme.colors.onPrimary,
+                            modifier = Modifier.width(200.dp)
+                        )
+                    }
+                    else{
+                        Text(
+                            text = " ",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 72.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.onPrimary,
+                            modifier = Modifier.width(200.dp)
+                        )
+                    }
                 }
 
                 Row(

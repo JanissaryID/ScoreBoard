@@ -1,6 +1,8 @@
 package component
 
 import DIALOG_TIMER
+import EXTRA_TIME
+import HALF_TIME
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,8 +36,8 @@ fun DialogTimer(Timer: List<Timer>){
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ){
-            var timeGame by remember { mutableStateOf("") }
-            var extraGame by remember { mutableStateOf("") }
+            var timeGame by remember { mutableStateOf("$HALF_TIME") }
+            var extraGame by remember { mutableStateOf("$EXTRA_TIME") }
 
             Surface(
                 modifier = Modifier.padding(16.dp).fillMaxSize(),
@@ -103,10 +105,15 @@ fun DialogTimer(Timer: List<Timer>){
                         ){
                             if(!timeGame.isNullOrEmpty() && !timeGame.isNullOrEmpty()){
                                 Timer.forEachIndexed { index, timer ->
-                                    Timer[index].SetTimer(
-                                        halfTime = timeGame.toInt(),
-                                        extraTime = extraGame.toInt()
-                                    )
+//                                    Timer[index].SetTimer(
+//                                        halfTime = timeGame.toInt(),
+//                                        extraTime = extraGame.toInt()
+//                                    )
+
+                                    HALF_TIME = timeGame.toInt()
+                                    EXTRA_TIME = extraGame.toInt()
+                                    Timer[index].SetTimer()
+                                    Timer[index].ChoseTime()
                                 }
                             }
                             DIALOG_TIMER = false

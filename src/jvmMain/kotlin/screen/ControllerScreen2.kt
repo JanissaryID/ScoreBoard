@@ -52,10 +52,10 @@ fun ControllerScreen2(
     val sizeFontScoreF = 144.sp
     val sizeFontTeamF = 56.sp
 
-    var PlayerA: ArrayList<ModelPlayer> = arrayListOf()
+    val PlayerA: ArrayList<ModelPlayer> = arrayListOf()
     PlayerA.addAll(Player.listData.filter { data -> data.Team })
 
-    var PlayerB: ArrayList<ModelPlayer> = arrayListOf()
+    val PlayerB: ArrayList<ModelPlayer> = arrayListOf()
     PlayerB.addAll(Player.listData.filter { data -> !data.Team })
 
     var showFilePicker by remember { mutableStateOf(false) }
@@ -66,18 +66,18 @@ fun ControllerScreen2(
     val moreButton = listOf("Reset All", "Delete", "Normal Screen")
     val injuryTime = listOf("Set Additional", "Show Additional")
 
-    var half_game: Int by mutableStateOf(Timer[SELECTED_SCREEN].HalfGame)
+    val half_game: Int by mutableStateOf(Timer[SELECTED_SCREEN].HalfGame)
 
     var selected_index_half by remember { mutableStateOf(half_game) }
 
     val on_click_index_half = { index: Int ->
         selected_index_half = index
-        Timer[SELECTED_SCREEN].HalfGame = index
+        Timer[SELECTED_SCREEN].HalfGame = selected_index_half
         try{
             Timer[SELECTED_SCREEN].ChoseTime(index = selected_index_half)
-
             Timer[SELECTED_SCREEN].isEndTime = false
             Timer[SELECTED_SCREEN].showAdditional = false
+            Timer[SELECTED_SCREEN].SetTimer()
             Timer[SELECTED_SCREEN].SetInjury(injuryTime = 0)
         }
         catch (e: Exception){

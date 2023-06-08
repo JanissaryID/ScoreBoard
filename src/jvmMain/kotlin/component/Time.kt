@@ -29,32 +29,6 @@ fun Time(
     )
 
     Column(modifier = modifier.width(intrinsicSize = IntrinsicSize.Min), horizontalAlignment = Alignment.CenterHorizontally) {
-//        if(isVisible){
-////            Text(
-////                text = "+4 $formattedTime",
-////                fontWeight = FontWeight.SemiBold,
-////                fontSize = sizeFontTime,
-////                color = MaterialTheme.colors.onPrimary,
-////                modifier = Modifier.width(150.dp)
-////            )
-//            Text(
-//                text = "$formattedTime",
-//                fontWeight = FontWeight.SemiBold,
-//                fontSize = sizeFontTime,
-//                color = MaterialTheme.colors.onPrimary,
-//                modifier = Modifier.width(90.dp)
-//            )
-//        }
-//        else{
-//            Text(
-//                text = "$formattedTime",
-//                fontWeight = FontWeight.SemiBold,
-//                fontSize = sizeTime[sizeDisplay],
-//                color = MaterialTheme.colors.onPrimary,
-//                textAlign = TextAlign.Center,
-//                modifier = Modifier.width(290.dp)
-//            )
-//        }
         if(isVisible){
             Row(
                 modifier = modifier.fillMaxWidth(),
@@ -83,24 +57,37 @@ fun Time(
                     size = 32,
                     isEnable = Time.isDisable
                 ){
-                    if(!Time.isEndTime){
-                        if(Time.isActive) Time.Pause() else Time.Start()
-                    }
+                    if(Time.isActive) Time.Pause() else Time.Start()
                 }
             }
         }
 
-//        println("Show Additional ${showAdditional}")
-        if(Time.showAdditional){
-            Text(
-                text = "+${Time.ShowInjury()}",
-                fontWeight = FontWeight.SemiBold,
-                fontSize = sizeFontTime,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.onPrimary,
-                modifier = Modifier.width(90.dp)
-            )
-            if(Time.isEndTime){
+        if(Time.isEndTime){
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if(Time.showAdditional){
+                    Text(
+                        text = "+${Time.ShowInjury()}",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.onPrimary,
+                        modifier = Modifier.width(32.dp)
+                    )
+                }
+                else{
+                    Text(
+                        text = "    ",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.onPrimary,
+                        modifier = Modifier.width(32.dp)
+                    )
+                }
                 Text(
                     text = "${Time.formattedTimeAdditional}",
                     fontWeight = FontWeight.SemiBold,
@@ -108,6 +95,15 @@ fun Time(
                     color = MaterialTheme.colors.onPrimary,
                     modifier = Modifier.width(90.dp)
                 )
+
+                ImageClickable(
+                    image = if(Time.isActiveAdditional) "pause.svg" else "play.svg",
+                    description = "play/Pause Timer",
+                    size = 32,
+                    isEnable = Time.isDisable
+                ){
+                    if(Time.isActiveAdditional) Time.PauseAdditional() else Time.StartAdditional()
+                }
             }
         }
     }

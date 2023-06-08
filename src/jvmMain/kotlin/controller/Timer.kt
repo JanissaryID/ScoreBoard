@@ -1,5 +1,7 @@
 package controller
 
+import EXTRA_TIME
+import HALF_TIME
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,9 +42,6 @@ class Timer {
     private var additionalTime = 0L
 
     private var indexSelected = 0
-//    init {
-//        ChoseTime(index = 0)
-//    }
 
     fun Start(){
         if(this@Timer.isActive) return
@@ -58,11 +57,10 @@ class Timer {
                     formattedTime = FormatTime(timeMilis = timeMilis)
                 }
                 else{
-                    Pause()
+//                    Pause()
                     this@Timer.isEndTime = true
-                    if(showAdditional){
-                        StartAdditional()
-                    }
+                    StartAdditional()
+                    this@Timer.isActive = false
                 }
             }
         }
@@ -70,6 +68,9 @@ class Timer {
 
     fun Pause(){
         this@Timer.isActive = false
+    }
+
+    fun PauseAdditional(){
         this@Timer.isActiveAdditional = false
     }
 
@@ -94,16 +95,22 @@ class Timer {
             lastTimestampAdditional = System.currentTimeMillis()
             this@Timer.isActiveAdditional = true
             while (this@Timer.isActiveAdditional){
-                if(timeMilisAdditional <= additionalTime){
-                    delay(10L)
-                    timeMilisAdditional += System.currentTimeMillis() - lastTimestampAdditional
-                    lastTimestampAdditional = System.currentTimeMillis()
-                    formattedTimeAdditional = FormatTimeAdditional(timeMilis = timeMilisAdditional)
-                }
-                else{
-                    Pause()
-                    this@Timer.isEndTimeAdditional = true
-                }
+
+                delay(10L)
+                timeMilisAdditional += System.currentTimeMillis() - lastTimestampAdditional
+                lastTimestampAdditional = System.currentTimeMillis()
+                formattedTimeAdditional = FormatTimeAdditional(timeMilis = timeMilisAdditional)
+
+//                if(timeMilisAdditional <= additionalTime){
+//                    delay(10L)
+//                    timeMilisAdditional += System.currentTimeMillis() - lastTimestampAdditional
+//                    lastTimestampAdditional = System.currentTimeMillis()
+//                    formattedTimeAdditional = FormatTimeAdditional(timeMilis = timeMilisAdditional)
+//                }
+//                else{
+//                    Pause()
+//                    this@Timer.isEndTimeAdditional = true
+//                }
             }
         }
     }
@@ -132,13 +139,13 @@ class Timer {
         return localDateTime.format(formatter)
     }
 
-    fun ChoseTime(index: Int = 0){
+    fun ChoseTime(index: Int = HalfGame){
         indexSelected = index
         when(index){
             0 -> {
-                println("Here")
                 this@Timer.timeMilis = 0L
                 this@Timer.maxHalfTime = this@Timer.halfTime
+//                println("Here ${this@Timer.maxHalfTime}")
             }
             1 -> {
                 this@Timer.maxHalfTime = 0L
@@ -161,11 +168,11 @@ class Timer {
     }
 
     fun SetTimer(
-        halfTime: Int,
-        extraTime: Int
+//        halfTime: Int,
+//        extraTime: Int
     ){
-        this@Timer.halfTime = halfTime * oneMinute
-        this@Timer.extraTime = extraTime * oneMinute
+        this@Timer.halfTime = HALF_TIME * oneMinute
+        this@Timer.extraTime = EXTRA_TIME * oneMinute
         this@Timer.isDisable = true
     }
 

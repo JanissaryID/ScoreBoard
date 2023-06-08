@@ -47,8 +47,8 @@ fun <T> AsyncImage(
             Image(
                 painter = painterFor(image!!),
                 contentDescription = contentDescription,
-                contentScale = FixedScale(0.9f),
-                modifier = modifier.wrapContentSize(unbounded = true, align = Alignment.CenterStart),
+                contentScale = ContentScale.Fit,
+//                modifier = modifier.wrapContentSize(unbounded = true, align = Alignment.CenterStart),
                 alignment = Alignment.Center,
                 alpha = 0.1f,
             )
