@@ -54,11 +54,13 @@ fun ControllerScreenWindowed(
         Timer[SELECTED_SCREEN].HalfGame = selected_index_half
 
         try{
-            Timer[SELECTED_SCREEN].ChoseTime(index = selected_index_half)
+//            println("in try $SELECTED_SCREEN -- ${selected_index_half}")
+
             Timer[SELECTED_SCREEN].isEndTime = false
             Timer[SELECTED_SCREEN].showAdditional = false
             Timer[SELECTED_SCREEN].SetTimer()
             Timer[SELECTED_SCREEN].SetInjury(injuryTime = 0)
+            Timer[SELECTED_SCREEN].ChoseTime(index = Timer[SELECTED_SCREEN].HalfGame)
         }
         catch (e: Exception){
             println("Error : $e")

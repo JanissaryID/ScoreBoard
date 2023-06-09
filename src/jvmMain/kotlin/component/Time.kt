@@ -58,7 +58,10 @@ fun Time(
                     isEnable = Time.isDisable
                 ){
                     if (Time.HalfGame > -1){
-                        if(Time.isActive) Time.Pause() else Time.Start()
+                        if(Time.GetMaxMilis() >= 60000L){
+//                            println("${Time.GetHalfTime()} -- ${Time.GetMilis()}")
+                            if(Time.isActive) Time.Pause() else Time.Start()
+                        }
                     }
                 }
             }

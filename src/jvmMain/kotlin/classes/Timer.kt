@@ -58,17 +58,21 @@ class Timer {
         return this@Timer.timeMilis
     }
 
+    fun GetHalfTime(): Long{
+        return this@Timer.halfTime
+    }
+
+//    fun CheckMaxMilis(){
+//        if(this@Timer.maxHalfTime < 60000L){
+//            SetTimer()
+//        }
+//    }
+
     fun GetMaxMilis(): Long{
         return this@Timer.maxHalfTime
     }
     fun Start(){
         if(this@Timer.isActive) return
-//        this@Timer.isEndTime = true
-//        if(isEndTime){
-//            SetTimer()
-//            ChoseTime()
-//            this@Timer.isEndTime = false
-//        }
 
         coroutineScope.launch {
             lastTimestamp = System.currentTimeMillis()
