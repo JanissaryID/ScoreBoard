@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import controller.Timer
+import classes.Timer
 
 @Composable
 fun Time(
@@ -57,7 +57,9 @@ fun Time(
                     size = 32,
                     isEnable = Time.isDisable
                 ){
-                    if(Time.isActive) Time.Pause() else Time.Start()
+                    if (Time.HalfGame > -1){
+                        if(Time.isActive) Time.Pause() else Time.Start()
+                    }
                 }
             }
         }

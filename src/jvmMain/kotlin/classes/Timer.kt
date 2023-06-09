@@ -1,4 +1,4 @@
-package controller
+package classes
 
 import EXTRA_TIME
 import HALF_TIME
@@ -43,8 +43,32 @@ class Timer {
 
     private var indexSelected = 0
 
+//    init {
+////        this@Timer.isActive = false
+////        this@Timer.isActiveAdditional = false
+////        this@Timer.isEndTime = false
+////        this@Timer.isDisable = false
+////        this@Timer.showAdditional = false
+////        this@Timer.HalfGame = -1
+//        SetTimer()
+//        ChoseTime()
+//    }
+
+    fun GetMilis(): Long{
+        return this@Timer.timeMilis
+    }
+
+    fun GetMaxMilis(): Long{
+        return this@Timer.maxHalfTime
+    }
     fun Start(){
         if(this@Timer.isActive) return
+//        this@Timer.isEndTime = true
+//        if(isEndTime){
+//            SetTimer()
+//            ChoseTime()
+//            this@Timer.isEndTime = false
+//        }
 
         coroutineScope.launch {
             lastTimestamp = System.currentTimeMillis()
@@ -82,10 +106,12 @@ class Timer {
         ChoseTime(index = indexSelected)
         lastTimestamp = 0L
         lastTimestampAdditional = 0L
+        this@Timer.timeMilisAdditional = 0L
         formattedTime = FormatTime(timeMilis = timeMilis)
         formattedTimeAdditional = FormatTimeAdditional(timeMilis = timeMilisAdditional)
         this@Timer.isActive = false
         this@Timer.isActiveAdditional = false
+        this@Timer.isEndTime = false
     }
 
     fun StartAdditional(){
@@ -100,17 +126,6 @@ class Timer {
                 timeMilisAdditional += System.currentTimeMillis() - lastTimestampAdditional
                 lastTimestampAdditional = System.currentTimeMillis()
                 formattedTimeAdditional = FormatTimeAdditional(timeMilis = timeMilisAdditional)
-
-//                if(timeMilisAdditional <= additionalTime){
-//                    delay(10L)
-//                    timeMilisAdditional += System.currentTimeMillis() - lastTimestampAdditional
-//                    lastTimestampAdditional = System.currentTimeMillis()
-//                    formattedTimeAdditional = FormatTimeAdditional(timeMilis = timeMilisAdditional)
-//                }
-//                else{
-//                    Pause()
-//                    this@Timer.isEndTimeAdditional = true
-//                }
             }
         }
     }

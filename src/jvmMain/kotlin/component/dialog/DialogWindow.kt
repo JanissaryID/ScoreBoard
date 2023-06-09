@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import controller.Display
-import controller.Team
+import classes.Display
+import classes.Team
 
 @Composable
 fun DialogWindow1(
@@ -35,7 +35,7 @@ fun DialogWindow1(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ){
-            var nameTeam by remember { mutableStateOf(TextFieldValue("")) }
+            var nameTeam by remember { mutableStateOf(TextFieldValue("${Team.NameTeam}")) }
 
             Surface(
                 modifier = Modifier.padding(16.dp).fillMaxSize(),

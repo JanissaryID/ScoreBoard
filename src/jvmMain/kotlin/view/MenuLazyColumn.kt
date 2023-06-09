@@ -19,9 +19,7 @@ import `object`.ModelPlayer
 fun MenuLazyColumn(
     menu: List<String>,
 ) {
-    var index_select: Int by mutableStateOf(SELECTED_SCREEN)
-
-    var selected_index by remember { mutableStateOf(index_select) }
+    var selected_index by remember { mutableStateOf(SELECTED_SCREEN) }
     val on_click_index = { index: Int ->
         selected_index = index
         SELECTED_SCREEN = selected_index
@@ -39,7 +37,7 @@ fun MenuLazyColumn(
                 index = if(selected_index != index){
                     index
                 }  else index,
-                selected = if(selected_index == index) false else true
+                selected = if(SELECTED_SCREEN == index) false else true
             )
         }
     }

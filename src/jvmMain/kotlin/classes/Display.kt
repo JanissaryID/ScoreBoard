@@ -1,4 +1,4 @@
-package controller
+package classes
 
 import androidx.compose.runtime.*
 

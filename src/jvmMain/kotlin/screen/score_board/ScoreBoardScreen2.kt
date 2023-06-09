@@ -1,8 +1,6 @@
 package screen
 
-import DATE_NOW
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,12 +9,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.FixedScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import component.AsyncImage
 import component.loadImageBitmap
-import controller.Display
-import controller.Team
-import controller.Timer
+import classes.Display
+import classes.Team
+import classes.Timer
 import java.io.File
 
 @Composable
@@ -41,7 +36,7 @@ fun ScoreBoardScreen2(
     resolution: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-
+    // Max 4K min FHD
     val sizeImage: List<Int> = if(resolution) listOf(240, 72, 64, 64,) else listOf(200, 32, 24, 24,)
 
     val sizeFontTeam: List<TextUnit> = if(resolution) listOf(42.sp, 26.sp, 26.sp, 26.sp,) else listOf(42.sp, 26.sp, 26.sp, 26.sp,)
@@ -49,6 +44,8 @@ fun ScoreBoardScreen2(
     val sizeFontScore: List<TextUnit> = if(resolution) listOf(180.sp, 140.sp, 140.sp, 140.sp,) else listOf(140.sp, 100.sp, 100.sp, 100.sp,)
 
     val fontTime: TextUnit = if(resolution) 120.sp else 80.sp
+
+    val sizeImageCenter: Int = if(resolution) 160 else 120
 
     var refreshImage by remember { mutableStateOf(false) }
 
@@ -281,7 +278,7 @@ fun ScoreBoardScreen2(
 //                        horizontalAlignment = Alignment.T
                     ){
 
-                        Box(modifier = Modifier.size(160.dp).background(Color.Transparent)) {
+                        Box(modifier = Modifier.size(sizeImageCenter.dp).background(Color.Transparent)) {
                             if(!Display.imageCenter.isNullOrEmpty() && !refreshImage){
                                 AsyncImage(
                                     load = { loadImageBitmap(File("${Display.imageCenter}")) },
@@ -294,7 +291,7 @@ fun ScoreBoardScreen2(
                                     painter = painterResource("premier.png"),
                                     contentDescription = "Default Image",
                                     contentScale = ContentScale.Fit,
-                                    modifier = androidx.compose.ui.Modifier.size(160.dp),
+                                    modifier = Modifier.size(sizeImageCenter.dp),
                                     alignment = Alignment.Center
                                 )
                             }

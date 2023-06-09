@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import controller.Timer
+import classes.Timer
 
 @Composable
 fun DialogInjury(Timer: List<Timer>){

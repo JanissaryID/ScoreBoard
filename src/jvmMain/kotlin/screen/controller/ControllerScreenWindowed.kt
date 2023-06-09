@@ -1,7 +1,6 @@
-package screen
+package screen.controller
 
 import DIALOG_INJURY
-import DIALOG_TIMER
 import SELECTED_SCREEN
 import SIZE_IMAGE_CENTER
 import SIZE_IMAGE_TEAM
@@ -11,12 +10,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -25,77 +23,108 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
+import classes.Display
+import classes.Team
+import classes.Timer
 import component.*
-import controller.Display
-import controller.Team
-import controller.Timer
-import `object`.ModelPlayer
-import `object`.Player
-import view.PlayerLazyColumn
 import java.io.File
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 @Preview
-fun ControllerScreen(
+fun ControllerScreenWindowed(
     Timer: List<Timer>,
     TeamA: List<Team>,
     TeamB: List<Team>,
     Display: Display,
+    moreButton: List<String>,
+    selectionHalfGame: List<String>,
+    injuryTime: List<String>,
     modifier: Modifier = Modifier
 ) {
     val sizeFontScore = MaterialTheme.typography.h1.fontSize
-    val sizeFontTeam = MaterialTheme.typography.h5.fontSize
-
-    var PlayerA: ArrayList<ModelPlayer> = arrayListOf()
-    PlayerA.addAll(Player.listData.filter { data -> data.Team })
-
-    var PlayerB: ArrayList<ModelPlayer> = arrayListOf()
-    PlayerB.addAll(Player.listData.filter { data -> !data.Team })
+    val sizeFontTeam = MaterialTheme.typography.h6.fontSize
 
     var showFilePicker by remember { mutableStateOf(false) }
     var refreshImage by remember { mutableStateOf(false) }
-    val fileType = listOf("png")
 
-    val selectionHalfGame = listOf("First Half", "Second Half", "Extra 1", "Extra 2")
-    val moreButton = listOf("Reset All", "Delete")
-    val injuryTime = listOf("Set Additional", "Show Additional")
-
-    var half_game: Int by mutableStateOf(0)
-
-    var selected_index_half by remember {mutableStateOf(half_game)}
+    var selected_index_half by remember { mutableStateOf(Timer[SELECTED_SCREEN].HalfGame) }
 
     val on_click_index_half = { index: Int ->
         selected_index_half = index
-        half_game = index
+        Timer[SELECTED_SCREEN].HalfGame = selected_index_half
 
-        Timer[SELECTED_SCREEN].ChoseTime(index = selected_index_half)
-
-
-        Timer[SELECTED_SCREEN].isEndTime = false
+        try{
+            Timer[SELECTED_SCREEN].ChoseTime(index = selected_index_half)
+            Timer[SELECTED_SCREEN].isEndTime = false
+            Timer[SELECTED_SCREEN].showAdditional = false
+            Timer[SELECTED_SCREEN].SetTimer()
+            Timer[SELECTED_SCREEN].SetInjury(injuryTime = 0)
+        }
+        catch (e: Exception){
+            println("Error : $e")
+        }
     }
 
-    Row(modifier = modifier.fillMaxSize()) {
-
-        ComponentSideMenu(Display = Display)
-
+    BoxWithConstraints(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         if(!Display.listDisplay.isNullOrEmpty()) {
             Column(
                 modifier = modifier.fillMaxHeight()
-                    .width(850.dp).padding(16.dp)
+                    .width(900.dp).padding(16.dp),
+                verticalArrangement = Arrangement.Top
             ) {
-
                 Row(
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight().weight(10f),
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    TextClickable(
+                        text = "${moreButton[0]}",
+                        clicked = !Timer[SELECTED_SCREEN].isActive && !Timer[SELECTED_SCREEN].isActiveAdditional
+                    ){
+                        TeamA[SELECTED_SCREEN].Reset()
+                        TeamB[SELECTED_SCREEN].Reset()
+                        Timer[SELECTED_SCREEN].Reset()
+                    }
+
+                    Text(
+                        text = "SSA DJARUM STADION",
+                        fontWeight = FontWeight.Normal,
+                        fontSize = MaterialTheme.typography.h6.fontSize,
+                        color = MaterialTheme.colors.onPrimary,
+                        modifier = modifier.wrapContentWidth(),
+                        textAlign = TextAlign.Center
+                    )
+
+                    TextClickable(
+                        text = "${moreButton[1]}",
+                        clicked = !Timer[SELECTED_SCREEN].isActive || !Timer[SELECTED_SCREEN].isActiveAdditional
+                    ){
+                        try {
+                            if(Display.listDisplay.size > 1){
+                                Display.listDisplay.removeAt(SELECTED_SCREEN)
+                                Display.listTeamA.removeAt(SELECTED_SCREEN)
+                                Display.listTeamB.removeAt(SELECTED_SCREEN)
+                                Display.listTimer.removeAt(SELECTED_SCREEN)
+                                SELECTED_SCREEN = 0
+                            }
+                        }
+                        catch (e: Exception){
+                            println("Error : $e")
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxHeight()
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.wrapContentHeight().weight(1f)
                     ) {
-//                println("Refresh = ${TeamA.RefreshImage}")
                         Box(
                             modifier = Modifier
                                 .pointerHoverIcon(
@@ -109,13 +138,11 @@ fun ControllerScreen(
                                     TeamA[SELECTED_SCREEN].RefreshImage = true
                                 },
                         ){
-//                    println("${TeamA.LogoTeam}")
                             if(!TeamA[SELECTED_SCREEN].LogoTeam.isNullOrEmpty() && !TeamA[SELECTED_SCREEN].RefreshImage){
                                 AsyncImage(
                                     load = { loadImageBitmap(File("${TeamA[SELECTED_SCREEN].LogoTeam}")) },
                                     painterFor = { remember { BitmapPainter(it) } },
                                     contentDescription = "Image Team",
-//                            Team = TeamA
                                 )
                             }
                             else{
@@ -131,9 +158,10 @@ fun ControllerScreen(
                         Text(
                             text = "${TeamA[SELECTED_SCREEN].NameTeam}",
                             fontWeight = FontWeight.SemiBold,
-//                    maxLines = 1,
                             fontSize = sizeFontTeam,
                             color = MaterialTheme.colors.onPrimary,
+                            maxLines = 2,
+                            minLines = 2,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .pointerHoverIcon(
@@ -144,7 +172,6 @@ fun ControllerScreen(
                                     Display.stateTeamClick = false
                                 }
                         )
-//                Spacer(modifier = modifier.height(2.dp))
                         Row(
                             modifier = Modifier.wrapContentSize().padding(start = 16.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -167,8 +194,8 @@ fun ControllerScreen(
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxHeight()
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.wrapContentHeight().weight(1f)
                     ) {
                         Box(
                             modifier = Modifier
@@ -195,52 +222,21 @@ fun ControllerScreen(
                                     painter = painterResource("premier.png"),
                                     contentDescription = "Default Image",
                                     contentScale = ContentScale.Fit,
-                                    modifier = Modifier.size(SIZE_IMAGE_CENTER.dp),
+                                    modifier = androidx.compose.ui.Modifier.size(SIZE_IMAGE_CENTER.dp),
                                     alignment = Alignment.Center
                                 )
                             }
                         }
                         Time(
-//                            formattedTime = Timer[SELECTED_SCREEN].formattedTime,
-//                            onStartClick = Timer[SELECTED_SCREEN]::Start,
-//                            onPauseClick = Timer[SELECTED_SCREEN]::Pause,
-//                            onResetClick = Timer[SELECTED_SCREEN]::Reset,
-//                            isActive = Timer[SELECTED_SCREEN].isActive,
-//                            isEndTime = Timer[SELECTED_SCREEN].isEndTime,
                             isVisible = true,
                             modifier = modifier,
                             Time = Timer[SELECTED_SCREEN]
-//                            isEnable = Timer[SELECTED_SCREEN].isDisable,
-//                            sizeDisplay = Timer.size
                         )
-                        Row(
-                            modifier = modifier.padding(horizontal = 16.dp)
-                                .wrapContentSize(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            PlayerLazyColumn(
-                                modifier = modifier,
-                                playerModel = PlayerA,
-                                aligment = true
-                            )
-                            Divider(
-                                color = Color.White,
-                                modifier = modifier
-                                    .height(100.dp)  //fill the max height
-                                    .width(2.dp)
-                            )
-                            PlayerLazyColumn(
-                                modifier = modifier,
-                                playerModel = PlayerB,
-                                aligment = false
-                            )
-                        }
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxHeight()
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.wrapContentHeight().weight(1f)
                     ) {
                         Box(
                             modifier = Modifier
@@ -268,7 +264,7 @@ fun ControllerScreen(
                                     painter = painterResource("PSIS.png"),
                                     contentDescription = "Default Image",
                                     contentScale = ContentScale.Fit,
-                                    modifier = Modifier.size(SIZE_IMAGE_TEAM.dp),
+                                    modifier = androidx.compose.ui.Modifier.size(SIZE_IMAGE_TEAM.dp),
                                     alignment = Alignment.Center
                                 )
                             }
@@ -276,7 +272,8 @@ fun ControllerScreen(
                         Text(
                             text = "${TeamB[SELECTED_SCREEN].NameTeam}",
                             fontWeight = FontWeight.SemiBold,
-//                    maxLines = 1,
+                            maxLines = 2,
+                            minLines = 2,
                             fontSize = sizeFontTeam,
                             color = MaterialTheme.colors.onPrimary,
                             textAlign = TextAlign.Center,
@@ -326,58 +323,17 @@ fun ControllerScreen(
                             modifier = Modifier.wrapContentWidth()
                         ){
                             itemsIndexed(items = selectionHalfGame){index, menuHalfGame ->
-//                                ComponentSelectedText(
-//                                    titleMenu = menuHalfGame,
-//                                    index = if(selected_index_half != index){
-//                                        index
-//                                    }  else index,
-//                                    onClick = on_click_index_half,
-//                                    Timer = Timer[SELECTED_SCREEN],
-//                                    selected = if(selected_index_half == index) false else true,
-//                                    clicked = if((Timer[SELECTED_SCREEN].halfStat == index) && !Timer[SELECTED_SCREEN].isActive) true else false
-//                                )
-
                                 ComponentSelectedText(
                                     titleMenu = menuHalfGame,
                                     index = if(selected_index_half != index){
                                         index
                                     }  else index,
                                     onClick = on_click_index_half,
-                                    selected = if(selected_index_half == index) false else true,
-                                    clicked = if(!Timer[SELECTED_SCREEN].isActive) true else false
+                                    selected = if(Timer[SELECTED_SCREEN].HalfGame == index) false else true,
+                                    clicked = !Timer[SELECTED_SCREEN].isActive && !Timer[SELECTED_SCREEN].isActiveAdditional
                                 )
                             }
                         }
-
-//                        LazyRow(
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-//                            modifier = Modifier.wrapContentWidth()
-//                        ){
-//                            itemsIndexed(items = extraGame){index, menuExtra ->
-////                                ComponentSelectedText(
-////                                    titleMenu = menuExtra,
-////                                    index = if(selected_index_extra != index){
-////                                        index
-////                                    }  else index,
-////                                    onClick = on_click_index_extra,
-////                                    Timer = Timer[SELECTED_SCREEN],
-////                                    clicked = if((Timer[SELECTED_SCREEN].extraStat == index) && !Timer[SELECTED_SCREEN].isActive && Timer[SELECTED_SCREEN].isEndTime && (Timer[SELECTED_SCREEN].statTimeNow == 1)) true else false,
-////                                    selected = if(selected_index_extra == index) false else true
-////                                )
-//
-//                                ComponentSelectedText(
-//                                    titleMenu = menuExtra,
-//                                    index = if(selected_index_extra != index){
-//                                        index
-//                                    }  else index,
-//                                    onClick = on_click_index_extra,
-//                                    Timer = Timer[SELECTED_SCREEN],
-//                                    clicked = if(!Timer[SELECTED_SCREEN].isActive) true else false,
-//                                    selected = if(selected_index_extra == index) false else true
-//                                )
-//                            }
-//                        }
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -388,38 +344,16 @@ fun ControllerScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.wrapContentWidth()
                         ){
-                            itemsIndexed(items = moreButton){index, menuExtra ->
-                                TextClickable(
-                                    text = "$menuExtra",
-                                    clicked = !Timer[SELECTED_SCREEN].isActive
-                                ){
-                                    if(index == 0){
-                                        TeamA[SELECTED_SCREEN].Reset()
-                                        TeamB[SELECTED_SCREEN].Reset()
-                                        Timer[SELECTED_SCREEN].Reset()
-                                    }
-                                    else{
-                                        Display.listDisplay.removeAt(SELECTED_SCREEN)
-                                    }
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.width(32.dp))
-                        LazyRow(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.wrapContentWidth()
-                        ){
                             itemsIndexed(items = injuryTime){index, menuExtra ->
                                 TextClickable(
                                     text = "$menuExtra",
-                                    clicked = !Timer[SELECTED_SCREEN].isActive
+                                    clicked = true
                                 ){
                                     if(index == 0){
                                         DIALOG_INJURY = true
                                     }
                                     else{
-
+                                        Timer[SELECTED_SCREEN].showAdditional = !Timer[SELECTED_SCREEN].showAdditional
                                     }
                                 }
                             }
@@ -428,52 +362,5 @@ fun ControllerScreen(
                 }
             }
         }
-    }
-
-    if(Display.dialogTeamName){
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-            DialogWindow1(
-                Team = if(!Display.stateTeamClick) TeamA[SELECTED_SCREEN] else TeamB[SELECTED_SCREEN],
-                Display = Display
-            )
-        }
-    }
-
-    if(DIALOG_TIMER){
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-            DialogTimer(Timer = Timer)
-        }
-    }
-
-    if(DIALOG_INJURY){
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-            DialogInjury(Timer = Timer)
-        }
-    }
-
-    FilePicker(showFilePicker, fileExtensions = fileType) { path ->
-        showFilePicker = false
-
-        try {
-            if(Display.stateImagePicker == 0){
-//                println("Path = ${path!!.platformFile}")
-                TeamA[SELECTED_SCREEN].LogoTeam = path!!.platformFile.toString()
-            }
-            else if(Display.stateImagePicker == 1){
-//                println("Path = ${path!!.platformFile}")
-                TeamB[SELECTED_SCREEN].LogoTeam = path!!.platformFile.toString()
-            }
-            else if(Display.stateImagePicker == 2){
-                Display.imageCenter = path!!.platformFile.toString()
-//                println("Path = ${path!!.platformFile}")
-            }
-        }
-        catch (e: Exception){
-            println("Error = $e")
-        }
-
-        TeamA[SELECTED_SCREEN].RefreshImage = false
-        TeamB[SELECTED_SCREEN].RefreshImage = false
-        refreshImage = false
     }
 }

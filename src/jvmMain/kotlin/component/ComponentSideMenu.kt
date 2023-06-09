@@ -4,12 +4,10 @@ import DIALOG_TIMER
 import FULL_SCREEN
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import controller.Display
-import controller.Timer
+import classes.Display
 import view.MenuLazyColumn
 
 @Composable

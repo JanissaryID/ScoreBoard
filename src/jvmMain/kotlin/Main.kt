@@ -12,10 +12,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import controller.Display
-import controller.Team
-import controller.Timer
-import screen.ControllerScreen2
+import classes.Display
+import classes.Team
+import classes.Timer
+import screen.ControllerScreenMain
 import screen.ScoreBoardScreen2
 import java.awt.Dimension
 import java.awt.Toolkit
@@ -37,7 +37,7 @@ fun DesktopController(
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ){
-            ControllerScreen2(
+            ControllerScreenMain(
                 Timer = Timer,
                 TeamA = TeamA,
                 TeamB = TeamB,
@@ -63,7 +63,7 @@ fun DesktopView(
     val width: Double = screenSize.getWidth()
     val height: Double = screenSize.getHeight()
 
-    println("$height -- $width")
+//    println("$height -- $width")
 
     MaterialTheme(colors = lightColors(background = PrimaryDark)) {
         ChoseScreen(
@@ -139,8 +139,6 @@ fun main() = application {
             )
         }
     }
-
-//    println("${Display.listDisplay.size} - ${Display.listTeamA.size} - ${Display.listTeamB.size} - ${Display.listTimer.size} - Selected : $SELECTED_SCREEN")
 
     if(FULL_SCREEN){
         Window(
