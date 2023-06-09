@@ -22,7 +22,7 @@ fun PlayerLazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.End
         ){
-            itemsIndexed(items = playerModel) { index, player ->
+            itemsIndexed(items = playerModel) { _, player ->
                 ComponentPlayer(
                     modifier = modifier,
                     name = player.Name,
@@ -40,7 +40,7 @@ fun PlayerLazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.Start
         ){
-            itemsIndexed(items = playerModel) { index, player ->
+            itemsIndexed(items = playerModel) { _, player ->
                 ComponentPlayer(
                     modifier = modifier,
                     name = player.Name,

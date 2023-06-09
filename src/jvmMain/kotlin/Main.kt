@@ -55,15 +55,11 @@ fun DesktopView(
     TeamB: List<Team>,
     Timer: List<Timer>,
     Display: Display,
-    modifier: Modifier = Modifier
 ) {
     val PrimaryDark = Color(0xFF18122B)
 
     val screenSize: Dimension = Toolkit.getDefaultToolkit().getScreenSize()
     val width: Double = screenSize.getWidth()
-    val height: Double = screenSize.getHeight()
-
-//    println("$height -- $width")
 
     MaterialTheme(colors = lightColors(background = PrimaryDark)) {
         ChoseScreen(
@@ -151,13 +147,12 @@ fun main() = application {
             alwaysOnTop = true,
             undecorated = true //frameless
         ) {
-            var modifier = Modifier.background(MaterialTheme.colors.background)
+//            var modifier = Modifier.background(MaterialTheme.colors.background)
             DesktopView(
                 TeamA = Display.listTeamA,
                 TeamB = Display.listTeamB,
                 Timer = Display.listTimer,
                 Display = Display,
-                modifier = modifier
             )
         }
     }
@@ -172,13 +167,12 @@ fun main() = application {
             alwaysOnTop = true,
             undecorated = false //frameless
         ) {
-            var modifier = Modifier.background(MaterialTheme.colors.background)
+//            var modifier = Modifier.background(MaterialTheme.colors.background)
             DesktopView(
                 TeamA = Display.listTeamA,
                 TeamB = Display.listTeamB,
                 Timer = Display.listTimer,
                 Display = Display,
-                modifier = modifier
             )
         }
     }
@@ -322,7 +316,6 @@ fun ChoseScreen(
                 }
             }
         }
-        else -> ""
     }
 }
 

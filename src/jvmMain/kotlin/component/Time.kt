@@ -21,12 +21,12 @@ fun Time(
 ) {
     val sizeFontTime = MaterialTheme.typography.h4.fontSize
 
-    val sizeTime: List<TextUnit> = listOf(
-        108.sp,
-        72.sp,
-        72.sp,
-        72.sp,
-    )
+//    val sizeTime: List<TextUnit> = listOf(
+//        108.sp,
+//        72.sp,
+//        72.sp,
+//        72.sp,
+//    )
 
     Column(modifier = modifier.width(intrinsicSize = IntrinsicSize.Min), horizontalAlignment = Alignment.CenterHorizontally) {
         if(isVisible){

@@ -48,7 +48,7 @@ fun ComponentMenu(
 //                            println("Single Press")
                             onClick.invoke(index)
                         },
-                        onDoubleTap = { tapOffset ->
+                        onDoubleTap = {
 //                            println("Double Click")
                             if(SELECTED_SCREEN == index){
                                 FULL_SCREEN_CONTROLLER = true

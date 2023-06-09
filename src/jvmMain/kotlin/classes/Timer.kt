@@ -177,7 +177,6 @@ class Timer {
                 this@Timer.timeMilis = (this@Timer.halfTime * 2) + this@Timer.extraTime
                 this@Timer.maxHalfTime = (this@Timer.halfTime * 2) + (this@Timer.extraTime * 2)
             }
-            else -> ""
         }
         formattedTime = FormatTime(timeMilis = timeMilis)
     }

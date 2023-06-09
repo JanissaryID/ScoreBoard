@@ -67,7 +67,7 @@ fun ScoreBoardScreen2(
             contentAlignment = Alignment.Center
         ) {
 
-            val boxWithConstrains = this
+//            val boxWithConstrains = this
 
             // Background Logo Team
 

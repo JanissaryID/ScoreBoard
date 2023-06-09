@@ -23,7 +23,7 @@ import classes.Timer
 fun DialogTimer(Timer: List<Timer>){
     val stateDialog = rememberDialogState(size = DpSize(350.dp, 280.dp), position = WindowPosition(Alignment.Center))
 
-    val size = Timer.size
+//    val size = Timer.size
 
     Dialog(
         onCloseRequest = { DIALOG_TIMER = false },
@@ -104,7 +104,7 @@ fun DialogTimer(Timer: List<Timer>){
                             fontColor = Color.White
                         ){
                             if(!timeGame.isNullOrEmpty() && !timeGame.isNullOrEmpty()){
-                                Timer.forEachIndexed { index, timer ->
+                                Timer.forEachIndexed { index, _ ->
 //                                    Timer[index].SetTimer(
 //                                        halfTime = timeGame.toInt(),
 //                                        extraTime = extraGame.toInt()
